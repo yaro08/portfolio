@@ -6,3 +6,6 @@ You can create portfolio/s and add your favorite coins.
 First, install NodeJS and NPM in your machine.
 Run `npm i` for install dependencies
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Live demo
+https://app-portfolio99.herokuapp.com/
