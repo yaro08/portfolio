@@ -1,15 +1,13 @@
 /* tslint:disable */
-/* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
-import { RequestBuilder } from '../request-builder';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { BaseService as __BaseService } from '../base-service';
+import { PortfolioConfiguration as __Configuration } from '../portfolio-configuration';
+import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
+import { Observable as __Observable } from 'rxjs';
+import { map as __map, filter as __filter } from 'rxjs/operators';
 
-
+import { ModelAndView } from '../models/model-and-view';
 
 /**
  * Basic Error Controller
@@ -17,369 +15,269 @@ import { map, filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class BasicErrorControllerService extends BaseService {
+class BasicErrorControllerService extends __BaseService {
+  static readonly errorHtmlUsingGETPath = '/error';
+  static readonly errorHtmlUsingHEADPath = '/error';
+  static readonly errorHtmlUsingPOSTPath = '/error';
+  static readonly errorHtmlUsingPUTPath = '/error';
+  static readonly errorHtmlUsingDELETEPath = '/error';
+  static readonly errorHtmlUsingOPTIONSPath = '/error';
+  static readonly errorHtmlUsingPATCHPath = '/error';
+
   constructor(
-    config: ApiConfiguration,
+    config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
   }
 
   /**
-   * Path part for operation errorHtmlUsingGet
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingGetPath = '/error';
+  errorHtmlUsingGETResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingGet()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingGet$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingGetPath, 'get');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingGet$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingGet(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingGet$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingGET(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingGETResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingPut
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingPutPath = '/error';
+  errorHtmlUsingHEADResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'HEAD',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingPut()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingPut$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingPutPath, 'put');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingPut$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingPut(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingPut$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingHEAD(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingHEADResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingPost
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingPostPath = '/error';
+  errorHtmlUsingPOSTResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingPost()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingPost$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingPostPath, 'post');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingPost$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingPost(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingPost$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingPOST(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingPOSTResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingDelete
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingDeletePath = '/error';
+  errorHtmlUsingPUTResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingDelete()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingDelete$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingDeletePath, 'delete');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingDelete$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingDelete(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingDelete$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingPUT(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingPUTResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingOptions
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingOptionsPath = '/error';
+  errorHtmlUsingDELETEResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingOptions()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingOptions$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingOptionsPath, 'options');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingOptions$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingOptions(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingOptions$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingDELETE(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingDELETEResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingHead
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingHeadPath = '/error';
+  errorHtmlUsingOPTIONSResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'OPTIONS',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingHead()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingHead$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingHeadPath, 'head');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingHead$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingHead(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingHead$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingOPTIONS(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingOPTIONSResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
 
   /**
-   * Path part for operation errorHtmlUsingPatch
+   * errorHtml
+   * @return OK
    */
-  static readonly ErrorHtmlUsingPatchPath = '/error';
+  errorHtmlUsingPATCHResponse(): __Observable<__StrictHttpResponse<ModelAndView>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'PATCH',
+      this.rootUrl + `/error`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `errorHtmlUsingPatch()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  errorHtmlUsingPatch$Response(params?: {
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, BasicErrorControllerService.ErrorHtmlUsingPatchPath, 'patch');
-    if (params) {
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ModelAndView>;
       })
     );
   }
-
   /**
-   * errorHtml.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `errorHtmlUsingPatch$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * errorHtml
+   * @return OK
    */
-  errorHtmlUsingPatch(params?: {
-  }): Observable<void> {
-
-    return this.errorHtmlUsingPatch$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  errorHtmlUsingPATCH(): __Observable<ModelAndView> {
+    return this.errorHtmlUsingPATCHResponse().pipe(
+      __map(_r => _r.body as ModelAndView)
     );
   }
-
 }
+
+module BasicErrorControllerService {
+}
+
+export { BasicErrorControllerService }

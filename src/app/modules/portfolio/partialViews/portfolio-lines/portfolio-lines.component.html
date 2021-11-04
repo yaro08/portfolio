@@ -1,0 +1,67 @@
+<ng-container *ngIf="currentPortfolio; else NotPortfolioSelectedRef">
+
+  <nz-row [nzGutter]="16" nzAlign="middle" nzJustify="space-between">
+    <nz-col [nzSpan]="8">
+      <h1 class="text-start">
+        {{currentPortfolio.name}}
+      </h1>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <button  nz-button nzType="primary" nzSize="small" (click)="showLineModal()">
+        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+        Add Currency
+      </button>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <nz-statistic *ngIf="totalPortolioValue"
+        [nzValue]="(totalPortolioValue | currency: 'EUR') || 0"
+                    [nzTitle]="'Current Balance'">
+
+      </nz-statistic>
+    </nz-col>
+  </nz-row>
+
+  <nz-table [style.margin-top.px]="20"
+            #headerTable
+            [nzData]="portfolioLinesList"
+            [nzLoading]="loadingLines"
+            [nzNoResult]="NotPortfolioSelectedRef"
+            [nzPageSize]="50"
+            [nzScroll]="{ y: '400px' }">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Total value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of headerTable.data">
+      <td>
+        <b>{{(data._links.currency.href | fetch)?.name}}</b>
+        <span>{{' (' + (data._links.currency.href | fetch)?.acronym + ')' }}</span>
+      </td>
+      <td>{{ data.amount }}</td>
+      <td>{{ (data?.price?.EUR || 0) * (data?.amount || 0) | currency: 'EUR':'symbol':'1.2-2':'es'}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</ng-container>
+
+<ng-template #NotPortfolioSelectedRef>
+  <nz-empty></nz-empty>
+</ng-template>
+
+<!--<nz-row nzAlign="middle" nzJustify="center">
+  <nz-col>
+    <button  nz-button nzType="link" nzSize="large" (click)="showLineModal()">
+      <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+      Add Currency
+    </button>
+  </nz-col>
+</nz-row>-->
+
+<app-portfolio-line-modal *ngIf="isVisibleLinesModal"
+                          (closed)="closedLinesModal($event)">
+
+</app-portfolio-line-modal>

@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/cyclosproject/ng-swagger-gen/master/ng-swagger-gen-schema.json",
-  "input": "https://sheltered-cliffs-34052.herokuapp.com/v2/api-docs",
+  "swagger": "https://sheltered-cliffs-34052.herokuapp.com/v2/api-docs",
   "output": "src/app/core/services/api/portfolio",
-  "ignoreUnusedModels": false
+  "ignoreUnusedModels ": false,
+  "prefix": "Portfolio"
 }

@@ -1,16 +1,15 @@
 /* tslint:disable */
-/* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
-import { RequestBuilder } from '../request-builder';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { BaseService as __BaseService } from '../base-service';
+import { PortfolioConfiguration as __Configuration } from '../portfolio-configuration';
+import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
+import { Observable as __Observable } from 'rxjs';
+import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { ResourcesCurrency } from '../models/resources-currency';
+import { ResourceCurrency } from '../models/resource-currency';
 import { Currency } from '../models/currency';
-
 
 /**
  * Simple Jpa Repository
@@ -18,366 +17,295 @@ import { Currency } from '../models/currency';
 @Injectable({
   providedIn: 'root',
 })
-export class CurrencyEntityService extends BaseService {
+class CurrencyEntityService extends __BaseService {
+  static readonly findAllCurrencyUsingGET1Path = '/api/currency';
+  static readonly saveCurrencyUsingPOST1Path = '/api/currency';
+  static readonly findOneCurrencyUsingGET1Path = '/api/currency/{id}';
+  static readonly saveCurrencyUsingPUT1Path = '/api/currency/{id}';
+  static readonly deleteCurrencyUsingDELETE1Path = '/api/currency/{id}';
+
   constructor(
-    config: ApiConfiguration,
+    config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
   }
 
   /**
-   * Path part for operation findAllCurrencyUsingGet1
+   * findAllCurrency
+   * @param params The `CurrencyEntityService.FindAllCurrencyUsingGET1Params` containing the following parameters:
+   *
+   * - `sort`: sort
+   *
+   * - `size`: size
+   *
+   * - `page`: page
+   *
+   * @return OK
    */
-  static readonly FindAllCurrencyUsingGet1Path = '/api/currency';
+  findAllCurrencyUsingGET1Response(params: CurrencyEntityService.FindAllCurrencyUsingGET1Params): __Observable<__StrictHttpResponse<ResourcesCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.sort != null) __params = __params.set('sort', params.sort.toString());
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * findAllCurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findAllCurrencyUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findAllCurrencyUsingGet1$Response(params?: {
-
-    /**
-     * page
-     */
-    page?: any;
-
-    /**
-     * size
-     */
-    size?: any;
-
-    /**
-     * sort
-     */
-    sort?: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CurrencyEntityService.FindAllCurrencyUsingGet1Path, 'get');
-    if (params) {
-      rb.query('page', params.page, {});
-      rb.query('size', params.size, {});
-      rb.query('sort', params.sort, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcesCurrency>;
       })
     );
   }
-
   /**
-   * findAllCurrency.
+   * findAllCurrency
+   * @param params The `CurrencyEntityService.FindAllCurrencyUsingGET1Params` containing the following parameters:
    *
+   * - `sort`: sort
    *
+   * - `size`: size
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `findAllCurrencyUsingGet1$Response()` instead.
+   * - `page`: page
    *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  findAllCurrencyUsingGet1(params?: {
-
-    /**
-     * page
-     */
-    page?: any;
-
-    /**
-     * size
-     */
-    size?: any;
-
-    /**
-     * sort
-     */
-    sort?: any;
-  }): Observable<void> {
-
-    return this.findAllCurrencyUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  findAllCurrencyUsingGET1(params: CurrencyEntityService.FindAllCurrencyUsingGET1Params): __Observable<ResourcesCurrency> {
+    return this.findAllCurrencyUsingGET1Response(params).pipe(
+      __map(_r => _r.body as ResourcesCurrency)
     );
   }
 
   /**
-   * Path part for operation saveCurrencyUsingPost1
+   * saveCurrency
+   * @param params The `CurrencyEntityService.SaveCurrencyUsingPOST1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly SaveCurrencyUsingPost1Path = '/api/currency';
+  saveCurrencyUsingPOST1Response(params: CurrencyEntityService.SaveCurrencyUsingPOST1Params): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * saveCurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `saveCurrencyUsingPost1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  saveCurrencyUsingPost1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: Currency;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CurrencyEntityService.SaveCurrencyUsingPost1Path, 'post');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * saveCurrency.
+   * saveCurrency
+   * @param params The `CurrencyEntityService.SaveCurrencyUsingPOST1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `saveCurrencyUsingPost1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  saveCurrencyUsingPost1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: Currency;
-  }): Observable<void> {
-
-    return this.saveCurrencyUsingPost1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  saveCurrencyUsingPOST1(params: CurrencyEntityService.SaveCurrencyUsingPOST1Params): __Observable<ResourceCurrency> {
+    return this.saveCurrencyUsingPOST1Response(params).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation findOneCurrencyUsingGet1
+   * findOneCurrency
+   * @param id id
+   * @return OK
    */
-  static readonly FindOneCurrencyUsingGet1Path = '/api/currency/{id}';
+  findOneCurrencyUsingGET1Response(id: number): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * findOneCurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findOneCurrencyUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findOneCurrencyUsingGet1$Response(params: {
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/currency/${encodeURIComponent(String(id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CurrencyEntityService.FindOneCurrencyUsingGet1Path, 'get');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * findOneCurrency.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `findOneCurrencyUsingGet1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * findOneCurrency
+   * @param id id
+   * @return OK
    */
-  findOneCurrencyUsingGet1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.findOneCurrencyUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  findOneCurrencyUsingGET1(id: number): __Observable<ResourceCurrency> {
+    return this.findOneCurrencyUsingGET1Response(id).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation saveCurrencyUsingPut1
+   * saveCurrency
+   * @param params The `CurrencyEntityService.SaveCurrencyUsingPUT1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly SaveCurrencyUsingPut1Path = '/api/currency/{id}';
+  saveCurrencyUsingPUT1Response(params: CurrencyEntityService.SaveCurrencyUsingPUT1Params): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * saveCurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `saveCurrencyUsingPut1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  saveCurrencyUsingPut1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/currency/${encodeURIComponent(String(params.id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: Currency;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CurrencyEntityService.SaveCurrencyUsingPut1Path, 'put');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * saveCurrency.
+   * saveCurrency
+   * @param params The `CurrencyEntityService.SaveCurrencyUsingPUT1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `saveCurrencyUsingPut1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  saveCurrencyUsingPut1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: Currency;
-  }): Observable<void> {
-
-    return this.saveCurrencyUsingPut1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  saveCurrencyUsingPUT1(params: CurrencyEntityService.SaveCurrencyUsingPUT1Params): __Observable<ResourceCurrency> {
+    return this.saveCurrencyUsingPUT1Response(params).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation deleteCurrencyUsingDelete1
+   * deleteCurrency
+   * @param id id
    */
-  static readonly DeleteCurrencyUsingDelete1Path = '/api/currency/{id}';
+  deleteCurrencyUsingDELETE1Response(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * deleteCurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteCurrencyUsingDelete1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteCurrencyUsingDelete1$Response(params: {
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/currency/${encodeURIComponent(String(id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, CurrencyEntityService.DeleteCurrencyUsingDelete1Path, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
       })
     );
   }
-
   /**
-   * deleteCurrency.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteCurrencyUsingDelete1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * deleteCurrency
+   * @param id id
    */
-  deleteCurrencyUsingDelete1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteCurrencyUsingDelete1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  deleteCurrencyUsingDELETE1(id: number): __Observable<null> {
+    return this.deleteCurrencyUsingDELETE1Response(id).pipe(
+      __map(_r => _r.body as null)
     );
   }
-
 }
+
+module CurrencyEntityService {
+
+  /**
+   * Parameters for findAllCurrencyUsingGET1
+   */
+  export interface FindAllCurrencyUsingGET1Params {
+
+    /**
+     * sort
+     */
+    sort?: string;
+
+    /**
+     * size
+     */
+    size?: string;
+
+    /**
+     * page
+     */
+    page?: string;
+  }
+
+  /**
+   * Parameters for saveCurrencyUsingPOST1
+   */
+  export interface SaveCurrencyUsingPOST1Params {
+    /**
+     * body
+     */
+    body: Currency;
+  }
+
+  /**
+   * Parameters for saveCurrencyUsingPUT1
+   */
+  export interface SaveCurrencyUsingPUT1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: Currency;
+  }
+}
+
+export { CurrencyEntityService }

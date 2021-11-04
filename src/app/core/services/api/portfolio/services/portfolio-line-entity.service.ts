@@ -1,16 +1,17 @@
 /* tslint:disable */
-/* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
-import { RequestBuilder } from '../request-builder';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { BaseService as __BaseService } from '../base-service';
+import { PortfolioConfiguration as __Configuration } from '../portfolio-configuration';
+import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
+import { Observable as __Observable } from 'rxjs';
+import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { ResourcesPortfolioLine } from '../models/resources-portfolio-line';
+import { ResourcePortfolioLine } from '../models/resource-portfolio-line';
 import { PortfolioLine } from '../models/portfolio-line';
-
+import { ResourceCurrency } from '../models/resource-currency';
+import { ResourcePortfolio } from '../models/resource-portfolio';
 
 /**
  * Simple Jpa Repository
@@ -18,1052 +19,849 @@ import { PortfolioLine } from '../models/portfolio-line';
 @Injectable({
   providedIn: 'root',
 })
-export class PortfolioLineEntityService extends BaseService {
+class PortfolioLineEntityService extends __BaseService {
+  static readonly findAllPortfolioLineUsingGET1Path = '/api/portfolioline';
+  static readonly savePortfolioLineUsingPOST1Path = '/api/portfolioline';
+  static readonly findOnePortfolioLineUsingGET1Path = '/api/portfolioline/{id}';
+  static readonly savePortfolioLineUsingPUT1Path = '/api/portfolioline/{id}';
+  static readonly deletePortfolioLineUsingDELETE1Path = '/api/portfolioline/{id}';
+  static readonly portfolioLinecurrencyUsingGET1Path = '/api/portfolioline/{id}/currency';
+  static readonly portfolioLinecurrencyUsingPOST1Path = '/api/portfolioline/{id}/currency';
+  static readonly portfolioLinecurrencyUsingPUT1Path = '/api/portfolioline/{id}/currency';
+  static readonly portfolioLinecurrencyUsingDELETE1Path = '/api/portfolioline/{id}/currency';
+  static readonly portfolioLinecurrencyUsingPATCH1Path = '/api/portfolioline/{id}/currency';
+  static readonly portfolioLineportfolioUsingGET1Path = '/api/portfolioline/{id}/portfolio';
+  static readonly portfolioLineportfolioUsingPOST1Path = '/api/portfolioline/{id}/portfolio';
+  static readonly portfolioLineportfolioUsingPUT1Path = '/api/portfolioline/{id}/portfolio';
+  static readonly portfolioLineportfolioUsingDELETE1Path = '/api/portfolioline/{id}/portfolio';
+  static readonly portfolioLineportfolioUsingPATCH1Path = '/api/portfolioline/{id}/portfolio';
+
   constructor(
-    config: ApiConfiguration,
+    config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
   }
 
   /**
-   * Path part for operation findAllPortfolioLineUsingGet1
+   * findAllPortfolioLine
+   * @param params The `PortfolioLineEntityService.FindAllPortfolioLineUsingGET1Params` containing the following parameters:
+   *
+   * - `sort`: sort
+   *
+   * - `size`: size
+   *
+   * - `page`: page
+   *
+   * @return OK
    */
-  static readonly FindAllPortfolioLineUsingGet1Path = '/api/portfolioline';
+  findAllPortfolioLineUsingGET1Response(params: PortfolioLineEntityService.FindAllPortfolioLineUsingGET1Params): __Observable<__StrictHttpResponse<ResourcesPortfolioLine>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.sort != null) __params = __params.set('sort', params.sort.toString());
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/portfolioline`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-  /**
-   * findAllPortfolioLine.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findAllPortfolioLineUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findAllPortfolioLineUsingGet1$Response(params?: {
-
-    /**
-     * page
-     */
-    page?: any;
-
-    /**
-     * size
-     */
-    size?: any;
-
-    /**
-     * sort
-     */
-    sort?: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.FindAllPortfolioLineUsingGet1Path, 'get');
-    if (params) {
-      rb.query('page', params.page, {});
-      rb.query('size', params.size, {});
-      rb.query('sort', params.sort, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcesPortfolioLine>;
       })
     );
   }
-
   /**
-   * findAllPortfolioLine.
+   * findAllPortfolioLine
+   * @param params The `PortfolioLineEntityService.FindAllPortfolioLineUsingGET1Params` containing the following parameters:
    *
+   * - `sort`: sort
    *
+   * - `size`: size
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `findAllPortfolioLineUsingGet1$Response()` instead.
+   * - `page`: page
    *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  findAllPortfolioLineUsingGet1(params?: {
-
-    /**
-     * page
-     */
-    page?: any;
-
-    /**
-     * size
-     */
-    size?: any;
-
-    /**
-     * sort
-     */
-    sort?: any;
-  }): Observable<void> {
-
-    return this.findAllPortfolioLineUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  findAllPortfolioLineUsingGET1(params: PortfolioLineEntityService.FindAllPortfolioLineUsingGET1Params): __Observable<ResourcesPortfolioLine> {
+    return this.findAllPortfolioLineUsingGET1Response(params).pipe(
+      __map(_r => _r.body as ResourcesPortfolioLine)
     );
   }
 
   /**
-   * Path part for operation savePortfolioLineUsingPost1
+   * savePortfolioLine
+   * @param params The `PortfolioLineEntityService.SavePortfolioLineUsingPOST1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly SavePortfolioLineUsingPost1Path = '/api/portfolioline';
+  savePortfolioLineUsingPOST1Response(params: PortfolioLineEntityService.SavePortfolioLineUsingPOST1Params): __Observable<__StrictHttpResponse<ResourcePortfolioLine>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * savePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `savePortfolioLineUsingPost1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  savePortfolioLineUsingPost1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/portfolioline`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: PortfolioLine;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.SavePortfolioLineUsingPost1Path, 'post');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolioLine>;
       })
     );
   }
-
   /**
-   * savePortfolioLine.
+   * savePortfolioLine
+   * @param params The `PortfolioLineEntityService.SavePortfolioLineUsingPOST1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `savePortfolioLineUsingPost1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  savePortfolioLineUsingPost1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: PortfolioLine;
-  }): Observable<void> {
-
-    return this.savePortfolioLineUsingPost1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  savePortfolioLineUsingPOST1(params: PortfolioLineEntityService.SavePortfolioLineUsingPOST1Params): __Observable<ResourcePortfolioLine> {
+    return this.savePortfolioLineUsingPOST1Response(params).pipe(
+      __map(_r => _r.body as ResourcePortfolioLine)
     );
   }
 
   /**
-   * Path part for operation findOnePortfolioLineUsingGet1
+   * findOnePortfolioLine
+   * @param id id
+   * @return OK
    */
-  static readonly FindOnePortfolioLineUsingGet1Path = '/api/portfolioline/{id}';
+  findOnePortfolioLineUsingGET1Response(id: number): __Observable<__StrictHttpResponse<ResourcePortfolioLine>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * findOnePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findOnePortfolioLineUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findOnePortfolioLineUsingGet1$Response(params: {
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.FindOnePortfolioLineUsingGet1Path, 'get');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolioLine>;
       })
     );
   }
-
   /**
-   * findOnePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `findOnePortfolioLineUsingGet1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * findOnePortfolioLine
+   * @param id id
+   * @return OK
    */
-  findOnePortfolioLineUsingGet1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.findOnePortfolioLineUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  findOnePortfolioLineUsingGET1(id: number): __Observable<ResourcePortfolioLine> {
+    return this.findOnePortfolioLineUsingGET1Response(id).pipe(
+      __map(_r => _r.body as ResourcePortfolioLine)
     );
   }
 
   /**
-   * Path part for operation savePortfolioLineUsingPut1
+   * savePortfolioLine
+   * @param params The `PortfolioLineEntityService.SavePortfolioLineUsingPUT1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly SavePortfolioLineUsingPut1Path = '/api/portfolioline/{id}';
+  savePortfolioLineUsingPUT1Response(params: PortfolioLineEntityService.SavePortfolioLineUsingPUT1Params): __Observable<__StrictHttpResponse<ResourcePortfolioLine>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * savePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `savePortfolioLineUsingPut1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  savePortfolioLineUsingPut1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: PortfolioLine;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.SavePortfolioLineUsingPut1Path, 'put');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolioLine>;
       })
     );
   }
-
   /**
-   * savePortfolioLine.
+   * savePortfolioLine
+   * @param params The `PortfolioLineEntityService.SavePortfolioLineUsingPUT1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `savePortfolioLineUsingPut1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  savePortfolioLineUsingPut1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: PortfolioLine;
-  }): Observable<void> {
-
-    return this.savePortfolioLineUsingPut1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  savePortfolioLineUsingPUT1(params: PortfolioLineEntityService.SavePortfolioLineUsingPUT1Params): __Observable<ResourcePortfolioLine> {
+    return this.savePortfolioLineUsingPUT1Response(params).pipe(
+      __map(_r => _r.body as ResourcePortfolioLine)
     );
   }
 
   /**
-   * Path part for operation deletePortfolioLineUsingDelete1
+   * deletePortfolioLine
+   * @param id id
    */
-  static readonly DeletePortfolioLineUsingDelete1Path = '/api/portfolioline/{id}';
+  deletePortfolioLineUsingDELETE1Response(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * deletePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deletePortfolioLineUsingDelete1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deletePortfolioLineUsingDelete1$Response(params: {
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.DeletePortfolioLineUsingDelete1Path, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
       })
     );
   }
-
   /**
-   * deletePortfolioLine.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deletePortfolioLineUsingDelete1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * deletePortfolioLine
+   * @param id id
    */
-  deletePortfolioLineUsingDelete1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deletePortfolioLineUsingDelete1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  deletePortfolioLineUsingDELETE1(id: number): __Observable<null> {
+    return this.deletePortfolioLineUsingDELETE1Response(id).pipe(
+      __map(_r => _r.body as null)
     );
   }
 
   /**
-   * Path part for operation portfolioLinecurrencyUsingGet1
+   * portfolioLinecurrency
+   * @param id id
+   * @return OK
    */
-  static readonly PortfolioLinecurrencyUsingGet1Path = '/api/portfolioline/{id}/currency';
+  portfolioLinecurrencyUsingGET1Response(id: number): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLinecurrencyUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLinecurrencyUsingGet1$Response(params: {
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLinecurrencyUsingGet1Path, 'get');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLinecurrencyUsingGet1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * portfolioLinecurrency
+   * @param id id
+   * @return OK
    */
-  portfolioLinecurrencyUsingGet1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.portfolioLinecurrencyUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLinecurrencyUsingGET1(id: number): __Observable<ResourceCurrency> {
+    return this.portfolioLinecurrencyUsingGET1Response(id).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation portfolioLinecurrencyUsingPut1
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPOST1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLinecurrencyUsingPut1Path = '/api/portfolioline/{id}/currency';
+  portfolioLinecurrencyUsingPOST1Response(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPOST1Params): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLinecurrencyUsingPut1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLinecurrencyUsingPut1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLinecurrencyUsingPut1Path, 'put');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * portfolioLinecurrency.
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPOST1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLinecurrencyUsingPut1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLinecurrencyUsingPut1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLinecurrencyUsingPut1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLinecurrencyUsingPOST1(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPOST1Params): __Observable<ResourceCurrency> {
+    return this.portfolioLinecurrencyUsingPOST1Response(params).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation portfolioLinecurrencyUsingPost1
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPUT1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLinecurrencyUsingPost1Path = '/api/portfolioline/{id}/currency';
+  portfolioLinecurrencyUsingPUT1Response(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPUT1Params): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLinecurrencyUsingPost1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLinecurrencyUsingPost1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLinecurrencyUsingPost1Path, 'post');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * portfolioLinecurrency.
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPUT1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLinecurrencyUsingPost1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLinecurrencyUsingPost1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLinecurrencyUsingPost1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLinecurrencyUsingPUT1(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPUT1Params): __Observable<ResourceCurrency> {
+    return this.portfolioLinecurrencyUsingPUT1Response(params).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation portfolioLinecurrencyUsingDelete1
+   * portfolioLinecurrency
+   * @param id id
    */
-  static readonly PortfolioLinecurrencyUsingDelete1Path = '/api/portfolioline/{id}/currency';
+  portfolioLinecurrencyUsingDELETE1Response(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLinecurrencyUsingDelete1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLinecurrencyUsingDelete1$Response(params: {
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLinecurrencyUsingDelete1Path, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
       })
     );
   }
-
   /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLinecurrencyUsingDelete1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * portfolioLinecurrency
+   * @param id id
    */
-  portfolioLinecurrencyUsingDelete1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.portfolioLinecurrencyUsingDelete1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLinecurrencyUsingDELETE1(id: number): __Observable<null> {
+    return this.portfolioLinecurrencyUsingDELETE1Response(id).pipe(
+      __map(_r => _r.body as null)
     );
   }
 
   /**
-   * Path part for operation portfolioLinecurrencyUsingPatch1
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPATCH1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLinecurrencyUsingPatch1Path = '/api/portfolioline/{id}/currency';
+  portfolioLinecurrencyUsingPATCH1Response(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPATCH1Params): __Observable<__StrictHttpResponse<ResourceCurrency>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLinecurrency.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLinecurrencyUsingPatch1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLinecurrencyUsingPatch1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PATCH',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/currency`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLinecurrencyUsingPatch1Path, 'patch');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourceCurrency>;
       })
     );
   }
-
   /**
-   * portfolioLinecurrency.
+   * portfolioLinecurrency
+   * @param params The `PortfolioLineEntityService.PortfolioLinecurrencyUsingPATCH1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLinecurrencyUsingPatch1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLinecurrencyUsingPatch1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLinecurrencyUsingPatch1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLinecurrencyUsingPATCH1(params: PortfolioLineEntityService.PortfolioLinecurrencyUsingPATCH1Params): __Observable<ResourceCurrency> {
+    return this.portfolioLinecurrencyUsingPATCH1Response(params).pipe(
+      __map(_r => _r.body as ResourceCurrency)
     );
   }
 
   /**
-   * Path part for operation portfolioLineportfolioUsingGet1
+   * portfolioLineportfolio
+   * @param id id
+   * @return OK
    */
-  static readonly PortfolioLineportfolioUsingGet1Path = '/api/portfolioline/{id}/portfolio';
+  portfolioLineportfolioUsingGET1Response(id: number): __Observable<__StrictHttpResponse<ResourcePortfolio>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLineportfolioUsingGet1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLineportfolioUsingGet1$Response(params: {
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}/portfolio`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLineportfolioUsingGet1Path, 'get');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolio>;
       })
     );
   }
-
   /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLineportfolioUsingGet1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * portfolioLineportfolio
+   * @param id id
+   * @return OK
    */
-  portfolioLineportfolioUsingGet1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.portfolioLineportfolioUsingGet1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLineportfolioUsingGET1(id: number): __Observable<ResourcePortfolio> {
+    return this.portfolioLineportfolioUsingGET1Response(id).pipe(
+      __map(_r => _r.body as ResourcePortfolio)
     );
   }
 
   /**
-   * Path part for operation portfolioLineportfolioUsingPut1
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPOST1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLineportfolioUsingPut1Path = '/api/portfolioline/{id}/portfolio';
+  portfolioLineportfolioUsingPOST1Response(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPOST1Params): __Observable<__StrictHttpResponse<ResourcePortfolio>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLineportfolioUsingPut1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLineportfolioUsingPut1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/portfolio`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLineportfolioUsingPut1Path, 'put');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolio>;
       })
     );
   }
-
   /**
-   * portfolioLineportfolio.
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPOST1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLineportfolioUsingPut1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLineportfolioUsingPut1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLineportfolioUsingPut1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLineportfolioUsingPOST1(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPOST1Params): __Observable<ResourcePortfolio> {
+    return this.portfolioLineportfolioUsingPOST1Response(params).pipe(
+      __map(_r => _r.body as ResourcePortfolio)
     );
   }
 
   /**
-   * Path part for operation portfolioLineportfolioUsingPost1
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPUT1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLineportfolioUsingPost1Path = '/api/portfolioline/{id}/portfolio';
+  portfolioLineportfolioUsingPUT1Response(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPUT1Params): __Observable<__StrictHttpResponse<ResourcePortfolio>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLineportfolioUsingPost1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLineportfolioUsingPost1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/portfolio`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLineportfolioUsingPost1Path, 'post');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolio>;
       })
     );
   }
-
   /**
-   * portfolioLineportfolio.
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPUT1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLineportfolioUsingPost1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLineportfolioUsingPost1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLineportfolioUsingPost1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLineportfolioUsingPUT1(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPUT1Params): __Observable<ResourcePortfolio> {
+    return this.portfolioLineportfolioUsingPUT1Response(params).pipe(
+      __map(_r => _r.body as ResourcePortfolio)
     );
   }
 
   /**
-   * Path part for operation portfolioLineportfolioUsingDelete1
+   * portfolioLineportfolio
+   * @param id id
    */
-  static readonly PortfolioLineportfolioUsingDelete1Path = '/api/portfolioline/{id}/portfolio';
+  portfolioLineportfolioUsingDELETE1Response(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLineportfolioUsingDelete1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLineportfolioUsingDelete1$Response(params: {
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(id))}/portfolio`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLineportfolioUsingDelete1Path, 'delete');
-    if (params) {
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
       })
     );
   }
-
   /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLineportfolioUsingDelete1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * portfolioLineportfolio
+   * @param id id
    */
-  portfolioLineportfolioUsingDelete1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.portfolioLineportfolioUsingDelete1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLineportfolioUsingDELETE1(id: number): __Observable<null> {
+    return this.portfolioLineportfolioUsingDELETE1Response(id).pipe(
+      __map(_r => _r.body as null)
     );
   }
 
   /**
-   * Path part for operation portfolioLineportfolioUsingPatch1
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPATCH1Params` containing the following parameters:
+   *
+   * - `id`: id
+   *
+   * - `body`: body
+   *
+   * @return OK
    */
-  static readonly PortfolioLineportfolioUsingPatch1Path = '/api/portfolioline/{id}/portfolio';
+  portfolioLineportfolioUsingPATCH1Response(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPATCH1Params): __Observable<__StrictHttpResponse<ResourcePortfolio>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
 
-  /**
-   * portfolioLineportfolio.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `portfolioLineportfolioUsingPatch1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  portfolioLineportfolioUsingPatch1$Response(params: {
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PATCH',
+      this.rootUrl + `/api/portfolioline/${encodeURIComponent(String(params.id))}/portfolio`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
 
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PortfolioLineEntityService.PortfolioLineportfolioUsingPatch1Path, 'patch');
-    if (params) {
-      rb.path('id', params.id, {});
-      rb.body('body', params.body, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResourcePortfolio>;
       })
     );
   }
-
   /**
-   * portfolioLineportfolio.
+   * portfolioLineportfolio
+   * @param params The `PortfolioLineEntityService.PortfolioLineportfolioUsingPATCH1Params` containing the following parameters:
    *
+   * - `id`: id
    *
+   * - `body`: body
    *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `portfolioLineportfolioUsingPatch1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
+   * @return OK
    */
-  portfolioLineportfolioUsingPatch1(params: {
-
-    /**
-     * id
-     */
-    id: any;
-
-    /**
-     * body
-     */
-    body: string;
-  }): Observable<void> {
-
-    return this.portfolioLineportfolioUsingPatch1$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+  portfolioLineportfolioUsingPATCH1(params: PortfolioLineEntityService.PortfolioLineportfolioUsingPATCH1Params): __Observable<ResourcePortfolio> {
+    return this.portfolioLineportfolioUsingPATCH1Response(params).pipe(
+      __map(_r => _r.body as ResourcePortfolio)
     );
   }
-
 }
+
+module PortfolioLineEntityService {
+
+  /**
+   * Parameters for findAllPortfolioLineUsingGET1
+   */
+  export interface FindAllPortfolioLineUsingGET1Params {
+
+    /**
+     * sort
+     */
+    sort?: string;
+
+    /**
+     * size
+     */
+    size?: string;
+
+    /**
+     * page
+     */
+    page?: string;
+  }
+
+  /**
+   * Parameters for savePortfolioLineUsingPOST1
+   */
+  export interface SavePortfolioLineUsingPOST1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: PortfolioLine;
+  }
+
+  /**
+   * Parameters for savePortfolioLineUsingPUT1
+   */
+  export interface SavePortfolioLineUsingPUT1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: PortfolioLine;
+  }
+
+  /**
+   * Parameters for portfolioLinecurrencyUsingPOST1
+   */
+  export interface PortfolioLinecurrencyUsingPOST1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+
+  /**
+   * Parameters for portfolioLinecurrencyUsingPUT1
+   */
+  export interface PortfolioLinecurrencyUsingPUT1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+
+  /**
+   * Parameters for portfolioLinecurrencyUsingPATCH1
+   */
+  export interface PortfolioLinecurrencyUsingPATCH1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+
+  /**
+   * Parameters for portfolioLineportfolioUsingPOST1
+   */
+  export interface PortfolioLineportfolioUsingPOST1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+
+  /**
+   * Parameters for portfolioLineportfolioUsingPUT1
+   */
+  export interface PortfolioLineportfolioUsingPUT1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+
+  /**
+   * Parameters for portfolioLineportfolioUsingPATCH1
+   */
+  export interface PortfolioLineportfolioUsingPATCH1Params {
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * body
+     */
+    body: string;
+  }
+}
+
+export { PortfolioLineEntityService }

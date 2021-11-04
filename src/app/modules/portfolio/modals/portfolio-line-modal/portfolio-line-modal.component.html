@@ -1,0 +1,51 @@
+<nz-modal nzVisible="true" nzTitle="Add new currency to your portfolio" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <form nz-form nzLayout="vertical" [formGroup]="lineFG">
+      <nz-form-item>
+        <nz-form-label nzNoColon [nzSpan]="0" hidden="hidden" nzFor="contrato">Currencies</nz-form-label>
+        <nz-form-control [nzValidateStatus]="getValidateStatus('currency')">
+          <nz-select id="currency" formControlName="currency"
+                     nzPlaceHolder="{{'select a currency'}}"
+                     nzAllowClear
+                     nzShowSearch
+                     nzSize="large"
+                     [nzLoading]="!listCurrencies"
+          >
+            <nz-option *ngFor="let item of listCurrencies?._embedded?.currencies" [nzValue]="item"
+                       [nzLabel]="item.name+' ('+item.acronym+')'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <ng-container *ngIf="!getFormControl('currency').value; else ValueSelectedRef">
+        <nz-divider nzType="horizontal" nzText="Or"></nz-divider>
+        <nz-row nzJustify="center" nzAlign="middle">
+          <nz-col>
+            <button nz-button nzSize="default" nzType="primary" (click)="showNewCoinForm()">
+              <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+              New coin
+            </button>
+            <!--<button nz-button nzSize="default" nzDanger (click)="ShowNewCoinForm()">
+              <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+              Hiz
+            </button>-->
+          </nz-col>
+        </nz-row>
+        <nz-row *ngIf="isVisibleNewCoinForm">
+          <nz-col nzSpan="18">
+            <app-coin-search (newCoin)="addNewCoin($event)"></app-coin-search>
+          </nz-col>
+        </nz-row>
+      </ng-container>
+
+      <ng-template #ValueSelectedRef>
+        <nz-form-item >
+          <nz-form-label nzFor="Amount">Amount</nz-form-label>
+          <nz-form-control [nzValidateStatus]="getValidateStatus('amount')"
+                           nzErrorTip="Input required">
+            <nz-input-number  formControlName="amount" nzSize="large"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-template>
+    </form>
+  </ng-container>
+</nz-modal>
