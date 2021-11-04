@@ -1,0 +1,15 @@
+<nz-modal nzVisible="true" nzTitle="New Portfolio" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <form nz-form nzLayout="vertical" [formGroup]="portfolioFG">
+      <nz-form-item>
+        <nz-form-label nzFor="name">Name</nz-form-label>
+        <nz-form-control [nzValidateStatus]="getValidateStatus('name')"
+                         nzErrorTip="Input required">
+          <nz-textarea-count [nzMaxCharacterCount]="30">
+            <textarea rows="1" formControlName="name" nz-input></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

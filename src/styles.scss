@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+.text-center {
+  text-align: center !important;
+}
+
+.text-start {
+  text-align: left !important;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}

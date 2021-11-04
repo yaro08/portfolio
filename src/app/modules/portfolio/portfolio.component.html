@@ -1,0 +1,14 @@
+<nz-layout class="inner-content">
+
+  <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0" nzWidth="300px" nzTheme="light">
+    <app-portfolio-list #portfolioListRef></app-portfolio-list>
+  </nz-sider>
+
+  <nz-content style="padding-left: 20px">
+    <app-portfolio-lines [currentPortfolio]="portfolioListRef?.currentPortfolio"></app-portfolio-lines>
+  </nz-content>
+
+</nz-layout>
+
+
+

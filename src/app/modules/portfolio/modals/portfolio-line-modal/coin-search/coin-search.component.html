@@ -1,0 +1,37 @@
+<form nz-form nzLayout="vertical" [formGroup]="newCoinFG">
+    <nz-form-item >
+      <nz-form-label nzFor="Amount">Coin acronym</nz-form-label>
+      <nz-form-control [nzValidateStatus]="getValidateStatus('name')">
+        <nz-input-group nzSearch nzSize="large">
+          <input type="text"
+                 (ngModelChange)="nameChanged($event)"
+                 formControlName="name"
+                 nz-input placeholder="input search text" />
+        </nz-input-group>
+
+        <nz-list class="coin-results" [nzLoading]="coinInfo.loading">
+          <nz-list-item>
+            <ng-container *ngIf="!coinInfo?.loading">
+              <nz-list-item-meta
+                nzDescription="{{ coinInfo?.symbol }}"
+              >
+                <nz-list-item-meta-title>
+                  <h4>{{coinInfo?.coinName}}</h4>
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+
+              <ul nz-list-item-actions *ngIf="coinInfo?.coinName">
+                <nz-list-item-action>
+                  <a nz-button nzType="primary" (click)="addToList(coinInfo)">
+                    <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+                    Add coin
+                  </a>
+                </nz-list-item-action>
+              </ul>
+            </ng-container>
+          </nz-list-item>
+        </nz-list>
+
+      </nz-form-control>
+    </nz-form-item>
+</form>
