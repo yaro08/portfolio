@@ -2,21 +2,28 @@
   <nz-list-header>
     <h3>Portfolio list</h3>
   </nz-list-header>
-  <li *ngFor="let item of portfolioList?._embedded?.portfolios"
-      nz-menu-item
-      [nzSelected]="selectedMenu == item.id"
-      class="text-start"
-      [routerLinkActive]="currentPortfolio?.id === item?.id ? 'ant-menu-item-selected' : ''"
-      (click)="selectedPortfolio(item)"
-  >
-    <a (click)="selectedPortfolio(item)" routerLinkActive="selected">{{ item.name }}</a>
-  </li>
-  <nz-list-footer>
-    <button nz-button nzSize="large" nzType="primary" (click)="showPortfolioModal()">
-      <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
-      New Portfolio
-    </button>
-  </nz-list-footer>
+  <ng-container *ngIf="loadingPortfolioList; else LoadedRef">
+    <nz-card-loading></nz-card-loading>
+    <nz-card-loading></nz-card-loading>
+    <nz-card-loading></nz-card-loading>
+  </ng-container>
+  <ng-template #LoadedRef>
+    <li *ngFor="let item of portfolioList?._embedded?.portfolios"
+        nz-menu-item
+        [nzSelected]="selectedMenu == item.id"
+        class="text-start"
+        [routerLinkActive]="currentPortfolio?.id === item?.id ? 'ant-menu-item-selected' : ''"
+        (click)="selectedPortfolio(item)"
+    >
+      <a (click)="selectedPortfolio(item)" routerLinkActive="selected">{{ item.name }}</a>
+    </li>
+    <nz-list-footer>
+      <button nz-button nzSize="large" nzType="primary" (click)="showPortfolioModal()">
+        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+        New Portfolio
+      </button>
+    </nz-list-footer>
+  </ng-template>
 </ul>
 
 <app-portfolio-modal *ngIf="isVisiblePortfolioModal"

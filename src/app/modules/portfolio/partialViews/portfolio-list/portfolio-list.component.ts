@@ -18,6 +18,7 @@ export class PortfolioListComponent implements OnInit {
   currentPortfolio: Portfolio | undefined;
   isVisiblePortfolioModal: boolean | undefined;
   selectedMenu: any;
+  loadingPortfolioList: boolean = false;
 
   constructor(private portfolioApiService: PortfolioEntityService,
               private portfolioService: PortfolioService,
@@ -47,10 +48,12 @@ export class PortfolioListComponent implements OnInit {
   }
 
   getPortfolioList(){
+    this.loadingPortfolioList = true;
     this.portfolioApiService.findAllPortfolioUsingGET1({}).subscribe(
       (result: ResourcesPortfolio) => {
         this.portfolioList = result;
         this.updateCurrentPortfolio();
+        this.loadingPortfolioList = false;
       }
     )
   }

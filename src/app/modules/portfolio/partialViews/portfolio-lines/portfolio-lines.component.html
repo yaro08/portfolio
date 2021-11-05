@@ -1,18 +1,18 @@
 <ng-container *ngIf="currentPortfolio; else NotPortfolioSelectedRef">
 
   <nz-row [nzGutter]="16" nzAlign="middle" nzJustify="space-between">
-    <nz-col [nzSpan]="8">
-      <h1 class="text-start">
+    <nz-col [nzSpan]="24" nzMd="8">
+      <h1 class="text-center">
         {{currentPortfolio.name}}
       </h1>
     </nz-col>
-    <nz-col [nzSpan]="8">
+    <nz-col [nzSpan]="24" nzMd="8">
       <button  nz-button nzType="primary" nzSize="small" (click)="showLineModal()">
         <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         Add Currency
       </button>
     </nz-col>
-    <nz-col [nzSpan]="8">
+    <nz-col [nzSpan]="24" nzMd="8">
       <nz-statistic *ngIf="totalPortolioValue"
         [nzValue]="(totalPortolioValue | currency: 'EUR') || 0"
                     [nzTitle]="'Current Balance'">
